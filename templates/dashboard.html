@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="sidebar">
+    <a href="/">🏠 Home</a>
+    <a href="/dashboard">📈 Dashboard</a>
+    <a href="/predict">🤖 Prediksi</a>
+</div>
+
+<div class="content">
+    <div class="card">
+        <h1>📊 Dashboard Diabetes</h1>
+
+        <iframe
+            width="100%"
+            height="600"
+            src="https://lookerstudio.google.com/embed/reporting/372b7594-f3bf-48f1-ab08-232a2a89e88c/page/omLjF"
+            frameborder="0"
+            style="border:0;"
+            allowfullscreen
+            sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+        </iframe>
+
+    </div>
+</div>
+
+</body>
+</html>
