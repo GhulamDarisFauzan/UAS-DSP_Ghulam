@@ -1,14 +1,17 @@
 from flask import Flask, render_template, request
 import numpy as np
 import pickle
+import os
 
 app = Flask(__name__)
 
 # =========================
 # LOAD MODEL & SCALER
 # =========================
-model = pickle.load(open("diabetes_model.pkl", "rb"))
-scaler = pickle.load(open("scaler.pkl", "rb"))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+model = pickle.load(open(os.path.join(BASE_DIR, "diabetes_model.pkl"), "rb"))
+scaler = pickle.load(open(os.path.join(BASE_DIR, "scaler.pkl"), "rb"))
 
 # =========================
 # ROUTE HOME
@@ -32,7 +35,6 @@ def predict():
     result = None
 
     if request.method == "POST":
-        # Ambil data dari form (URUTAN HARUS SAMA DENGAN TRAINING)
         data = [
             float(request.form["pregnancies"]),
             float(request.form["glucose"]),
@@ -44,13 +46,9 @@ def predict():
             float(request.form["age"])
         ]
 
-        # Scaling data
         data_scaled = scaler.transform([data])
-
-        # Prediksi
         prediction = model.predict(data_scaled)[0]
 
-        # Hasil prediksi
         if prediction == 1:
             result = "Berpotensi Diabetes"
         else:
@@ -59,7 +57,8 @@ def predict():
     return render_template("predict.html", result=result)
 
 # =========================
-# RUN APP
+# RUN APP (UNTUK LOCAL)
 # =========================
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
